@@ -57,27 +57,55 @@ public:
 
 
 // Linked List 
-struct Node {
+class Node {
+public:
 	int data;
-	struct Node* next;
+	Node* next;
 };
 
-struct Node* head = NULL;
+class LinkedList {
+public:
+	LinkedList() { // constructor
+		head = NULL;
+	}
+	~LinkedList() {}; // destructor
+	void addNode(int val);
+	void display();
+private:
+	Node* head;
+};
 
-void insert(int new_data) {
-	struct Node* new_node = (struct Node*)malloc(sizeof(struct Node));
-	new_node->data = new_data;
-	new_node->next = head;
-	head = new_node;
-}
-void display() {
-	struct Node* ptr;
-	ptr = head;
-	while (ptr != NULL) {
-		cout << ptr->data << " ";
-		ptr = ptr->next;
+// function to add node to a list
+void LinkedList::addNode(int val) {
+	Node* newnode = new Node();
+	newnode->data = val;
+	newnode->next = NULL;
+	if (head == NULL) {
+		head = newnode;
+	}
+	else {
+		Node* temp = head; // head is not NULL
+		while (temp->next != NULL) {
+			temp = temp->next; // go to end of list
+		}
+		temp->next = newnode; // linking to newnode
 	}
 }
+void LinkedList::display() {
+	if (head == NULL) {
+		cout << "List is empty!" << endl;
+	}
+	else {
+		Node* temp = head;
+		while (temp != NULL) {
+			cout << temp->data << " ";
+			temp = temp->next;
+		}
+		cout << endl;
+	}
+}
+
+
 
 
 ////////////////////////////////////////////
@@ -167,14 +195,16 @@ int main() {
 			   break;
 
 		case 53: {
-			system("cls");
-			insert(3);
-			insert(1);
-			insert(7);
-			insert(2);
-			insert(9);
-			cout << "/n The linked list is: ";
-			display();
+			LinkedList* list = new LinkedList();
+			list->addNode(100);
+			list->addNode(200);
+			list->addNode(300);
+			list->addNode(400);
+			list->addNode(500);
+			cout << "Linked List data" << endl;
+			list->display();
+			cout << "Reversed Linked List data" << endl;
+			list->display();
 		}
 			   break;
 
