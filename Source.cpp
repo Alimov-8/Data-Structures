@@ -113,6 +113,7 @@ int main() {
 	//Identifires
 	string firstName, lastName, ticketType, carriageType, carriageID, carriagePlaces;
 	int Num = 1;
+	int numOfBusiness=0, numOfFirst=0, businessSpace=0, firstSpace=0;
 	//Objects
 	Passenger Psg;
 	Carriage Crg;
@@ -125,7 +126,7 @@ int main() {
 		cout << "   2.Read Passengers Info  -> File" << endl;
 		cout << "   3.Add Carriage -> File" << endl;
 		cout << "   4.Read Carriage Info  -> File" << endl;
-		cout << "   5" << endl;
+		cout << "   5.Show Linked list" << endl;
 		cout << "    Your choice:";
 		switch (_getch())
 		{
@@ -145,6 +146,8 @@ int main() {
 		}
 			   break;
 		case 50: { // Read File
+			numOfBusiness = 0;
+			numOfFirst = 0;
 			cout << endl;
 			cout << "\n\t     File: " << endl;
 			ifstream in;
@@ -153,6 +156,10 @@ int main() {
 				cout << Num << "." << endl;
 				Psg.Display();
 				Num++;
+				if (Psg.getTicketType() == "Business") 
+					numOfBusiness++;
+				else
+					numOfFirst++;
 			}
 			cout << Line << endl;
 			Num = 1;
@@ -185,6 +192,10 @@ int main() {
 				cout << Num << "." << endl;
 				Crg.Display();
 				Num++;
+				if (Crg.getCarriageType() == "Business")
+					numOfBusiness++;
+				else
+					numOfFirst++;
 			}
 			cout << Line << endl;
 			Num = 1;
@@ -195,16 +206,23 @@ int main() {
 			   break;
 
 		case 53: {
-			LinkedList* list = new LinkedList();
-			list->addNode(100);
-			list->addNode(200);
-			list->addNode(300);
-			list->addNode(400);
-			list->addNode(500);
-			cout << "Linked List data" << endl;
-			list->display();
-			cout << "Reversed Linked List data" << endl;
-			list->display();
+			LinkedList* listBusiness = new LinkedList();
+			LinkedList* listFirst = new LinkedList();
+			for (int i = 1; i <= numOfBusiness; i++) {
+				listBusiness->addNode(i);
+			}
+			for (int i = 1; i <= numOfFirst; i++) {
+				listFirst->addNode(i);
+			}
+			
+			cout << "\nLinked List Business data" << endl;
+			listBusiness->display();
+
+			cout << "Linked List First data" << endl;
+			listFirst->display();
+
+			cout << "\n Press any keyboard to continue program " << endl << endl;
+			system("pause");
 		}
 			   break;
 
