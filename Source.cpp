@@ -55,13 +55,14 @@ public:
 	}
 };
 
-// linked list
+// Node needed to implement linked list
 class Node {
 public:
 	int data;
 	Node* next;
 };
 
+// Linked list implementation
 class LinkedList {
 public:
 	LinkedList() { // constructor
@@ -94,6 +95,7 @@ void LinkedList::addNode(int val) {
 	}
 }
 
+// Displays the linked list
 void LinkedList::display() {
 	if (head == NULL) {
 		cout << "List is empty!" << endl;
