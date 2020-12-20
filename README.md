@@ -1,4 +1,4 @@
-# Data-Structuresc 
+# Data-Structures
 Covid-Free Transport Place Allocation ✈️🚉
 Using Linked List and Stacks (C++, Files and other features)
 
