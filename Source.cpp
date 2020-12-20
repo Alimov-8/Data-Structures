@@ -106,7 +106,7 @@ void LinkedList::addNode(int val) {
 // Displays the linked list
 void LinkedList::display() {
 	if (head == NULL) {
-		cout << "List is empty!" << endl;
+		cout << "Passengers list is empty!" << endl;
 	}
 	else {
 		Node* temp = head;
@@ -122,7 +122,7 @@ void LinkedList::display() {
 void LinkedList::deleteFirst() {
 	// if empty
 	if (head == NULL)
-		cout << "List is empty!" << endl;
+		cout << "Passengers list is empty!" << endl;
 
 	// delete the first element
 	else {
@@ -349,15 +349,21 @@ int main() {
 					in.close();
 					// ---------------------------------------
 					cout << "Number of free Spaces (Business):" << businessSpace << endl;
+
 					if (numOfBusiness <= businessSpace) {
 					// PUSH()
-						int distributedPerson = listBusiness->getFirstElement();
-						stackBusiness->push(distributedPerson);
-						listBusiness->deleteFirst();
+						for (int i = numOfBusiness; i > 0; i--) {
+							int distributedPerson = listBusiness->getFirstElement();
+							stackBusiness->push(distributedPerson);
+							listBusiness->deleteFirst();
+						}
 					}
 					else {
 					// Overflow() 
+						cout << "You need " + (numOfBusiness-businessSpace) << " space"<< endl;
 					}
+
+					cout << "Free spaces left: " << (businessSpace - numOfBusiness) << endl; // shows the number of free spaces
 
 					listBusiness->display();
 					cout << endl;
