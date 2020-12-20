@@ -1,8 +1,8 @@
 #include <conio.h> // need to use getch()
 #include <fstream> // file handling
-#include <iostream> // input/output stream
+#include <iostream> // input/output handling
 
-#define Line " ------------------------------------------ " // macros
+#define Line "------------------------------------------ " // macros
 
 using namespace std;
 
@@ -55,30 +55,30 @@ public:
 	}
 };
 
-
-// linked list 
+// linked list
 class Node {
-	public:
-		int data;
-		Node* next;
+public:
+	int data;
+	Node* next;
 };
 
 class LinkedList {
-	public:
-		LinkedList() { // constructor
-			head = NULL;
-		}
+public:
+	LinkedList() { // constructor
+		head = NULL;
+	}
 
-		~LinkedList() {}; // destructor
-		void addNode(int val);
-		void display();
+	~LinkedList() {}; // destructor
+	void addNode(int val);
+	void display();
 
-	private:
-		Node* head;
+private:
+	Node* head;
 };
 
-// function to add node to a list
+
 void LinkedList::addNode(int val) {
+	// function to add node to a list
 	Node* newnode = new Node();
 	newnode->data = val;
 	newnode->next = NULL;
@@ -101,13 +101,55 @@ void LinkedList::display() {
 	else {
 		Node* temp = head;
 		while (temp != NULL) {
-			cout << temp->data <<endl;
+			cout << temp->data << endl;
 			temp = temp->next;
 		}
 		cout << endl;
 	}
 }
 
+class Stack {
+	Node* front;  // points to the head of list
+public:
+	Stack() {
+		front = NULL;
+	}
+	// push method to add data element
+	void push(int);
+	// pop method to remove data element
+	void pop();
+	// top method to return top data element
+	int top();
+};
+
+// Inserting Data in Stack (Linked List)
+void Stack::push(int d) {
+	// creating a new node
+	Node* temp;
+	temp = new Node();
+	// setting data to it
+	temp->data = d;
+	// add the node in front of list
+	if (front == NULL)
+		temp->next = NULL;
+	else
+		temp->next = front;
+	front = temp;
+}
+
+// Removing Element from Stack (Linked List)
+void Stack::pop() {
+	// if empty
+	if (front == NULL)
+		cout << "UNDERFLOW\n";
+
+	// delete the first element
+	else {
+		Node* temp = front;
+		front = front->next;
+		delete(temp);
+	}
+}
 
 int main() {
 	// identifires
@@ -119,12 +161,11 @@ int main() {
 	Passenger Psg;
 	Carriage Crg;
 
-
-
 	// start
 	for (int i = 0; i < 1000; i++) { // loop for Menu
 		system("cls");
-		cout << "Menu " << endl;
+
+		cout << "\t*** MENU *** " << endl;
 		cout << "1. Add passenger to file" << endl;
 		cout << "2. Read passengers info from file" << endl;
 		cout << "3. Add carriage to file" << endl;
@@ -133,26 +174,28 @@ int main() {
 		cout << "Your choice:";
 
 		switch (_getch()) {
-		case 49: { // write to file
+		case 49: { // write to file a passenger
 			cout << "\n" << Line << endl;
 			ofstream out;
 			out.open("Passengers", ios::binary | ios::app);
-			cout << "       ADD Passenger" << endl;
-			cout << "Enter First Name: "; cin >> firstName;
-			cout << "Enter Last Name: "; cin >> lastName;
-			cout << "Enter Ticket Type: "; cin >> ticketType;
+
+			cout << "\t*** Add Passenger ***" << endl;
+			cout << "Enter first name: "; cin >> firstName;
+			cout << "Enter last name: "; cin >> lastName;
+			cout << "Enter ticket type (Business/First): "; cin >> ticketType;
+
 			Psg.setData(firstName, lastName, ticketType);
 			out.write((char*)&Psg, sizeof(Passenger));
 			out.close();
-			cout << "\nPress any keyboard to continue program " << endl << endl;
-			system("pause");
-		}
-		break;
-
-		case 50: { // read from file
 
 			cout << endl;
-			cout << "\n\t     File: " << endl;
+			system("pause");
+		}
+			   break;
+
+		case 50: { // read from file passengers
+			cout << "\n\t*** Passenger File *** " << endl;
+
 			ifstream in;
 			in.open("Passengers", ios::binary);
 			while (in.read((char*)&Psg, sizeof(Passenger))) {
@@ -163,30 +206,34 @@ int main() {
 			cout << Line << endl;
 			Num = 1;
 			in.close();
-			cout << "\nPress any keyboard to continue program " << endl << endl;
+
+			cout << endl;
 			system("pause");
 		}
-		break;
+			   break;
 
-		case 51: { // write file
+		case 51: { // write to file carriages
 			cout << "\n" << Line << endl;
 			ofstream out;
 			out.open("Carriages", ios::binary | ios::app);
-			cout << "       ADD Carriages" << endl;
+
+			cout << "\t*** Add Carriages ***" << endl;
 			cout << "Enter ID: "; cin >> carriageID;
-			cout << "Enter Type: "; cin >> carriageType;
-			cout << "Enter Number of Places: "; cin >> carriagePlaces;
+			cout << "Enter type (Business/First): "; cin >> carriageType;
+			cout << "Enter number of seets: "; cin >> carriagePlaces;
+
 			Crg.setData(carriageID, carriageType, carriagePlaces);
 			out.write((char*)&Crg, sizeof(Carriage));
 			out.close();
-			cout << "\nPress any keyboard to continue program " << endl << endl;
+
+			cout << endl;
 			system("pause");
 		}
-		break;
+			   break;
 
-		case 52: { // read file
+		case 52: { // read from file carriages
 			cout << endl;
-			cout << "\n\t     File: " << endl;
+			cout << "\n\t*** Carriage File ***" << endl;
 			ifstream in;
 			in.open("Carriages", ios::binary);
 			while (in.read((char*)&Crg, sizeof(Carriage))) {
@@ -201,13 +248,14 @@ int main() {
 			cout << Line << endl;
 			Num = 1;
 			in.close();
-			cout << "\nPress any keyboard to continue program " << endl << endl;
+
+			cout << endl;
 			system("pause");
 		}
-		break;
+			   break;
 
 		case 53: {
-			///////////////////
+			///////////
 			LinkedList* listBusiness = new LinkedList();
 			LinkedList* listFirst = new LinkedList();
 
@@ -220,32 +268,30 @@ int main() {
 					listFirst->addNode(Num);
 				Num++;
 			}
-			cout << Line << endl;
+			cout << endl << Line << endl;
 			Num = 1;
 			in.close();
 			//////////
 
-			cout << "\nLinked List Business data" << endl;
+			cout << "Linked List - 'Business class'" << endl;
 			listBusiness->display();
 
-			cout << "Linked List First data" << endl;
+			cout << "Linked List - 'First class'" << endl;
 			listFirst->display();
 
-			cout << "\nPress any keyboard to continue program " << endl << endl;
 			system("pause");
 		}
-	    break;
+			   break;
 
 		default: {
-			cout << "\n\n Your choice is not available in Menu " << endl;
-			cout << " Press any keyboard to continue program " << endl << endl;
+			cout << "\n\nYour choice is not available in the menu!" << endl;
+			cout << endl;
 			system("pause");
 		}
-    	break;
+			   break;
 
 		} // end of switch
 	} // end of loop
-
 	system("pause");
 	return 0;
 }
