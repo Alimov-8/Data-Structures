@@ -328,30 +328,34 @@ int main() {
 				cout << "0. Go back " << endl;
 				cout << "Your choice:";
 
-				switch (_getch()) {
-				case 49: { // "1. Distribute 'Business class'"
-					Stack* stackBusiness = new Stack();
-					businessSpace = 0;
-					firstSpace = 0;
-					ifstream in;
-					in.open("Carriages", ios::binary);
-					while (in.read((char*)&Crg, sizeof(Carriage))) {
-						if (Crg.getCarriageType() == "Business") {
-							businessSpace = businessSpace + Crg.getCarriagePlace();
-						}
-						else {
-							firstSpace = firstSpace + Crg.getCarriagePlace();
-						}
+				businessSpace = 0;
+				firstSpace = 0;
+
+				ifstream in;
+				in.open("Carriages", ios::binary);
+				while (in.read((char*)&Crg, sizeof(Carriage))) {
+					if (Crg.getCarriageType() == "Business") {
+						businessSpace = businessSpace + Crg.getCarriagePlace();
 					}
-					cout << Line << endl;
-					businessSpace = businessSpace / 2;
-					firstSpace = firstSpace / 2;
-					in.close();
-					// ---------------------------------------
-					cout << "Number of free Spaces (Business):" << businessSpace << endl;
+					else {
+						firstSpace = firstSpace + Crg.getCarriagePlace();
+					}
+				}
+				businessSpace = businessSpace / 2;
+				firstSpace = firstSpace / 2;
+				in.close();
+
+				switch (_getch()) {
+				case 49: { 
+					// Distribute 'Business class'
+					Stack* stackBusiness = new Stack();
+
+					// Free spaces we have in business class
+					cout << endl << Line << endl;
+					cout << "Number of free spaces (Business): " << businessSpace << endl;
 
 					if (numOfBusiness <= businessSpace) {
-					// PUSH()
+					// take the first element from list, PUSH() it to stack, delete that element
 						for (int i = numOfBusiness; i > 0; i--) {
 							int distributedPerson = listBusiness->getFirstElement();
 							stackBusiness->push(distributedPerson);
@@ -359,22 +363,47 @@ int main() {
 						}
 					}
 					else {
-					// Overflow() 
-						cout << "You need " + (numOfBusiness-businessSpace) << " space"<< endl;
+					// Overflow case
+						cout << "You need " + (numOfBusiness-businessSpace) << " spaces"<< endl;
 					}
 
-					cout << "Free spaces left: " << (businessSpace - numOfBusiness) << endl; // shows the number of free spaces
+					cout << "Business class passengers list: ";
+					// listBusiness->display(); // displays old linked list
+					stackBusiness->printStack(); // displays new stack
 
-					listBusiness->display();
-					cout << endl;
-					stackBusiness->printStack();
+					// shows the number of free spaces
+					cout << "Free spaces left: " << (businessSpace - numOfBusiness) << endl;
 
 					cout << endl;
 					system("pause");
 				}
 					   break;
-				case 50: { // 
-					cout << "afg";
+				case 50: { // Distribute 'First class'
+					Stack* stackFirst = new Stack();
+
+					// Free spaces we have in first class
+					cout << endl << Line << endl;
+					cout << "Number of free spaces (Fist): " << firstSpace << endl;
+
+					if (numOfFirst <= firstSpace) {
+						// take the first element from list, PUSH() it to stack, delete that element
+						for (int i = numOfFirst; i > 0; i--) {
+							int distributedPerson = listFirst->getFirstElement();
+							stackFirst->push(distributedPerson);
+							listFirst->deleteFirst();
+						}
+					}
+					else {
+						// Overflow case
+						cout << "You need " + (numOfFirst - firstSpace) << " spaces" << endl;
+					}
+
+					cout << "First class passengers list: ";
+					stackFirst->printStack(); // displays new stack
+
+					// shows the number of free spaces
+					cout << "Free spaces left: " << (firstSpace - numOfFirst) << endl;
+
 					cout << endl;
 					system("pause");
 				}
