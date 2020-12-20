@@ -9,10 +9,11 @@ using namespace std;
 class Carriage {
 protected:
 	// identifires
-	string carriageType, carriageID, carriagePlaces;
+	string carriageType, carriageID;
+	int carriagePlaces;
 public:
 	// setting data (name and tell)
-	void setData(string carriageType, string carriageID, string carriagePlaces) {
+	void setData(string carriageType, string carriageID, int carriagePlaces) {
 		this->carriageType = carriageType;
 		this->carriageID = carriageID;
 		this->carriagePlaces = carriagePlaces;
@@ -21,7 +22,7 @@ public:
 	// get name and tell
 	string getCarriageType() { return carriageType; }
 	string getCarriageID() { return carriageID; }
-	string getCarriagePlace() { return carriagePlaces; }
+	int getCarriagePlace() { return carriagePlaces; }
 
 	// displaying name and tell
 	void Display() {
@@ -71,13 +72,20 @@ public:
 
 	~LinkedList() {}; // destructor
 	void addNode(int val);
+	void deleteFirst();
+	int getFirstElement();
 	void display();
 
 private:
 	Node* head;
 };
 
+int LinkedList::getFirstElement()
+{
+	return head->data;
+}
 
+// Add a node in linked list
 void LinkedList::addNode(int val) {
 	// function to add node to a list
 	Node* newnode = new Node();
@@ -103,25 +111,38 @@ void LinkedList::display() {
 	else {
 		Node* temp = head;
 		while (temp != NULL) {
-			cout << temp->data << endl;
+			cout << temp->data << " --> ";
 			temp = temp->next;
 		}
 		cout << endl;
 	}
 }
 
+// Removing element from Linked list
+void LinkedList::deleteFirst() {
+	// if empty
+	if (head == NULL)
+		cout << "List is empty!" << endl;
+
+	// delete the first element
+	else {
+		Node* temp = head;
+		head = head->next;
+		delete(temp);
+	}
+}
+
+// Stack implementation
 class Stack {
 	Node* front;  // points to the head of list
 public:
 	Stack() {
 		front = NULL;
 	}
-	// push method to add data element
-	void push(int);
-	// pop method to remove data element
-	void pop();
-	// top method to return top data element
-	int top();
+	
+	void push(int); // push method to add data element
+	void pop(); // pop method to remove data element
+	void printStack();
 };
 
 // Inserting Data in Stack (Linked List)
@@ -129,8 +150,9 @@ void Stack::push(int d) {
 	// creating a new node
 	Node* temp;
 	temp = new Node();
-	// setting data to it
-	temp->data = d;
+	
+	temp->data = d; // setting data to it
+
 	// add the node in front of list
 	if (front == NULL)
 		temp->next = NULL;
@@ -143,7 +165,7 @@ void Stack::push(int d) {
 void Stack::pop() {
 	// if empty
 	if (front == NULL)
-		cout << "UNDERFLOW\n";
+		cout << "UNDERFLOW";
 
 	// delete the first element
 	else {
@@ -153,9 +175,24 @@ void Stack::pop() {
 	}
 }
 
+// Displays the linked list
+void Stack::printStack() {
+	if (front == NULL) {
+		cout << "UNDERFLOW!";
+	}
+	else {
+		Node* temp = front;
+		while (temp != NULL) {
+			cout << temp->data << " <--> ";
+			temp = temp->next;
+		}
+		cout << endl;
+	}
+}
+
 int main() {
 	// identifires
-	string firstName, lastName, ticketType, carriageType, carriageID, carriagePlaces;
+	string firstName, lastName, ticketType, carriageType, carriageID; int carriagePlaces;
 	int Num = 1;
 	int numOfBusiness = 0, numOfFirst = 0, businessSpace = 0, firstSpace = 0;
 
@@ -172,7 +209,7 @@ int main() {
 		cout << "2. Read passengers info from file" << endl;
 		cout << "3. Add carriage to file" << endl;
 		cout << "4. Read carriage info from file" << endl;
-		cout << "5. Show linked list" << endl;
+		cout << "5. Show linked lists" << endl; // Sort and Divide Info which comes from File and will add to linked list
 		cout << "Your choice:";
 
 		switch (_getch()) {
@@ -224,7 +261,7 @@ int main() {
 			cout << "Enter type (Business/First): "; cin >> carriageType;
 			cout << "Enter number of seets: "; cin >> carriagePlaces;
 
-			Crg.setData(carriageID, carriageType, carriagePlaces);
+			Crg.setData(carriageType, carriageID, carriagePlaces);
 			out.write((char*)&Crg, sizeof(Carriage));
 			out.close();
 
@@ -242,10 +279,6 @@ int main() {
 				cout << Num << "." << endl;
 				Crg.Display();
 				Num++;
-				if (Crg.getCarriageType() == "Business")
-					numOfBusiness++;
-				else
-					numOfFirst++;
 			}
 			cout << Line << endl;
 			Num = 1;
@@ -257,30 +290,98 @@ int main() {
 			   break;
 
 		case 53: {
-			///////////
+			// Sort Passengers into Linked Lists
 			LinkedList* listBusiness = new LinkedList();
 			LinkedList* listFirst = new LinkedList();
-
+			numOfBusiness = 0;
+			numOfFirst = 0;
 			ifstream in;
 			in.open("Passengers", ios::binary);
 			while (in.read((char*)&Psg, sizeof(Passenger))) {
-				if (Psg.getTicketType() == "Business")
+				if (Psg.getTicketType() == "Business") {
 					listBusiness->addNode(Num);
-				else
+					numOfBusiness++;
+				}
+				else {
 					listFirst->addNode(Num);
+					numOfFirst++;
+				}
 				Num++;
 			}
 			cout << endl << Line << endl;
 			Num = 1;
 			in.close();
-			//////////
-
+			// ---------------------------------------
 			cout << "Linked List - 'Business class'" << endl;
 			listBusiness->display();
+			cout << "Overall 'Business': " << numOfBusiness << endl << endl;
 
 			cout << "Linked List - 'First class'" << endl;
 			listFirst->display();
+			cout << "Overall 'First': " << numOfFirst << endl;
+		    // ---------------------------------------
 
+			for (int j = 0; j < 100;j++) {
+				cout << "\n\t*** INNER MENU *** " << endl;
+				cout << "1. Distribute 'Business class'" << endl;
+				cout << "2. Distribute 'First class'" << endl;
+				cout << "0. Go back " << endl;
+				cout << "Your choice:";
+
+				switch (_getch()) {
+				case 49: { // "1. Distribute 'Business class'"
+					Stack* stackBusiness = new Stack();
+					businessSpace = 0;
+					firstSpace = 0;
+					ifstream in;
+					in.open("Carriages", ios::binary);
+					while (in.read((char*)&Crg, sizeof(Carriage))) {
+						if (Crg.getCarriageType() == "Business") {
+							businessSpace = businessSpace + Crg.getCarriagePlace();
+						}
+						else {
+							firstSpace = firstSpace + Crg.getCarriagePlace();
+						}
+					}
+					cout << Line << endl;
+					businessSpace = businessSpace / 2;
+					firstSpace = firstSpace / 2;
+					in.close();
+					// ---------------------------------------
+					cout << "Number of free Spaces (Business):" << businessSpace << endl;
+					if (numOfBusiness <= businessSpace) {
+					// PUSH()
+						int distributedPerson = listBusiness->getFirstElement();
+						stackBusiness->push(distributedPerson);
+						listBusiness->deleteFirst();
+					}
+					else {
+					// Overflow() 
+					}
+
+					listBusiness->display();
+					cout << endl;
+					stackBusiness->printStack();
+
+					cout << endl;
+					system("pause");
+				}
+					   break;
+				case 50: { // 
+					cout << "afg";
+					cout << endl;
+					system("pause");
+				}
+					   break;
+				case 51: { // go back
+					j = 101;
+				}
+					   break;
+				}
+				
+			} // inner menu
+
+			cout << endl;
 			system("pause");
 		}
 			   break;
