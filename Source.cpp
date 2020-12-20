@@ -194,7 +194,8 @@ int main() {
 	// identifires
 	string firstName, lastName, ticketType, carriageType, carriageID; int carriagePlaces;
 	int Num = 1;
-	int numOfBusiness = 0, numOfFirst = 0, businessSpace = 0, firstSpace = 0;
+	int numOfBusiness = 0, numOfFirst = 0;
+	double businessSpace = 0, firstSpace = 0;
 
 	// objects
 	Passenger Psg;
@@ -341,8 +342,8 @@ int main() {
 						firstSpace = firstSpace + Crg.getCarriagePlace();
 					}
 				}
-				businessSpace = businessSpace / 2;
-				firstSpace = firstSpace / 2;
+				businessSpace = round(businessSpace / 2.0);
+				firstSpace = round(firstSpace / 2.0);
 				in.close();
 
 				switch (_getch()) {
@@ -355,24 +356,32 @@ int main() {
 					cout << "Number of free spaces (Business): " << businessSpace << endl;
 
 					if (numOfBusiness <= businessSpace) {
-					// take the first element from list, PUSH() it to stack, delete that element
+						// take the first element from list, PUSH() it to stack, delete that element
 						for (int i = numOfBusiness; i > 0; i--) {
 							int distributedPerson = listBusiness->getFirstElement();
 							stackBusiness->push(distributedPerson);
 							listBusiness->deleteFirst();
+							businessSpace--;
 						}
+						// shows the number of free spaces
+						cout << "Free spaces left: " << businessSpace << endl;
+					}
+					else if (numOfBusiness > businessSpace) {
+						for (int i = businessSpace; i > 0; i--) {
+							int distributedPerson = listBusiness->getFirstElement();
+							stackBusiness->push(distributedPerson);
+							listBusiness->deleteFirst();
+						}
+						cout << "You need " << numOfBusiness - businessSpace << " more spaces!" << endl;
 					}
 					else {
 					// Overflow case
-						cout << "You need " + (numOfBusiness-businessSpace) << " spaces"<< endl;
+						cout << "You need " << numOfBusiness - businessSpace << " free spaces!"<< endl;
 					}
 
 					cout << "Business class passengers list: ";
 					// listBusiness->display(); // displays old linked list
 					stackBusiness->printStack(); // displays new stack
-
-					// shows the number of free spaces
-					cout << "Free spaces left: " << (businessSpace - numOfBusiness) << endl;
 
 					cout << endl;
 					system("pause");
@@ -391,18 +400,26 @@ int main() {
 							int distributedPerson = listFirst->getFirstElement();
 							stackFirst->push(distributedPerson);
 							listFirst->deleteFirst();
+							firstSpace--;
 						}
+						// shows the number of free spaces
+						cout << "Free spaces left: " << firstSpace << endl;
+					}
+					else if (numOfFirst > firstSpace) {
+						for (int i = firstSpace; i > 0; i--) {
+							int distributedPerson = listFirst->getFirstElement();
+							stackFirst->push(distributedPerson);
+							listFirst->deleteFirst();
+						}
+						cout << "You need " << numOfFirst - firstSpace << " more spaces!" << endl;
 					}
 					else {
 						// Overflow case
-						cout << "You need " + (numOfFirst - firstSpace) << " spaces" << endl;
+						cout << "You need " << numOfFirst - firstSpace << " spaces!" << endl;
 					}
 
 					cout << "First class passengers list: ";
 					stackFirst->printStack(); // displays new stack
-
-					// shows the number of free spaces
-					cout << "Free spaces left: " << (firstSpace - numOfFirst) << endl;
 
 					cout << endl;
 					system("pause");
