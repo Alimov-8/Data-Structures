@@ -444,7 +444,6 @@ int main() {
 			system("pause");
 		}
 			   break;
-
 		} // end of switch
 	} // end of loop
 	system("pause");
