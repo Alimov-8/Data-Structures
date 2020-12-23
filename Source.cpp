@@ -31,7 +31,6 @@ public:
 	}
 };
 
-
 class Passenger {
 protected:
 	// identifires
@@ -322,7 +321,7 @@ int main() {
 			cout << "Overall 'First': " << numOfFirst << endl;
 		    // ---------------------------------------
 
-			for (int j = 0; j < 100;j++) {
+			for (int j = 0; j < 100; j++) {
 				cout << "\n\t*** INNER MENU *** " << endl;
 				cout << "1. Distribute 'Business class'" << endl;
 				cout << "2. Distribute 'First class'" << endl;
@@ -425,7 +424,7 @@ int main() {
 					system("pause");
 				}
 					   break;
-				case 51: { // go back
+				case 48: { // go back
 					j = 101;
 				}
 					   break;
@@ -434,7 +433,7 @@ int main() {
 			} // inner menu
 
 			cout << endl;
-			system("pause");
+			// system("pause");
 		}
 			   break;
 
