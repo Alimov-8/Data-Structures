@@ -1,7 +1,6 @@
 #include <conio.h> // need to use getch()
 #include <fstream> // file handling
 #include <iostream> // input/output handling
-
 #define Line "------------------------------------------ " // macros
 
 using namespace std;
@@ -79,8 +78,7 @@ private:
 	Node* head;
 };
 
-int LinkedList::getFirstElement()
-{
+int LinkedList::getFirstElement() {
 	return head->data;
 }
 
